@@ -99,7 +99,60 @@ void BFS(int start) {
 
         cout << endl;
     }
+    int minDistance(vector<int> &dist, vector<bool> &visited) {
+    int min = 999999;
+    int minIndex = -1;
+
+    for (int i = 0; i < SIZE; i++) {
+        if (!visited[i] && dist[i] <= min) {
+            min = dist[i];
+            minIndex = i;
+        }
+    }
+
+    return minIndex;
+}
+
+void shortestPath(int start) {
+    vector<int> dist(SIZE, 999999);
+    vector<bool> visited(SIZE, false);
+
+    dist[start] = 0;
+
+    for (int count = 0; count < SIZE - 1; count++) {
+        int u = minDistance(dist, visited);
+
+        if (u == -1) {
+            break;
+        }
+
+        visited[u] = true;
+
+        for (Pair neighbor : adjList[u]) {
+            int v = neighbor.first;
+            int weight = neighbor.second;
+
+            if (!visited[v] && dist[u] != 999999 &&
+                dist[u] + weight < dist[v]) {
+                dist[v] = dist[u] + weight;
+            }
+        }
+    }
+
+    cout << "Lowest Trade Cost Paths from " << countryNames[start] << ":" << endl;
+    cout << "========================================" << endl;
+
+    for (int i = 0; i < SIZE; i++) {
+        cout << countryNames[start] << " -> " << countryNames[i]
+             << " : " << dist[i] << endl;
+    }
+
+    cout << endl;
+}
 };
+
+
+
 int main() {
     vector<string> countries = {
         "United States",
@@ -135,6 +188,6 @@ int main() {
     graph.printTradeNetwork();
     graph.DFS(0);
     graph.BFS(0);
-
+    graph.shortestPath(0);
     return 0;
 }
