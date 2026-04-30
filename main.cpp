@@ -51,4 +51,31 @@ public:
     void DFSHelper(int vertex, vector<bool> &visited) {
         
     }
+void BFS(int start) {
+        vector<bool> visited(SIZE, false);
+        queue<int> q;
 
+        visited[start] = true;
+        q.push(start);
+
+        cout << "BFS starting from vertex " << start << ":" << endl;
+
+        while (!q.empty()) {
+            int vertex = q.front();
+            q.pop();
+
+            cout << vertex << " ";
+
+            for (Pair neighbor : adjList[vertex]) {
+                int nextVertex = neighbor.first;
+
+                if (!visited[nextVertex]) {
+                    visited[nextVertex] = true;
+                    q.push(nextVertex);
+                }
+            }
+        }
+
+        cout << endl;
+    }
+};
