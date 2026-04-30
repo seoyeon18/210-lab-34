@@ -28,19 +28,22 @@ public:
         }
     }
  
-    void printGraph() {
-        cout << "Graph's adjacency list:" << endl;
+    void printTradeNetwork() {
+        cout << "Global Trade Network:" << endl;
+        cout << "=====================" << endl;
 
         for (int i = 0; i < adjList.size(); i++) {
-            cout << i << " --> ";
+            cout << countryNames[i] << " connects to:" << endl;
 
             for (Pair v : adjList[i]) {
-                cout << "(" << v.first << ", " << v.second << ") ";
+                cout << "  -> " << countryNames[v.first]
+                     << " (Trade Cost: " << v.second << ")" << endl;
             }
 
             cout << endl;
         }
     }
+
     void DFS(int start) {
         vector<bool> visited(SIZE, false);
 
@@ -80,6 +83,18 @@ void BFS(int start) {
     }
 };
 int main() {
+    vector<string> countries = {
+        "United States",
+        "China",
+        "South Korea",
+        "Japan",
+        "Germany",
+        "Vietnam",
+        "India",
+        "Brazil",
+        "Canada"
+    };
+
     vector<Edge> edges = {
         {0, 1, 8},
         {0, 2, 21},
@@ -96,9 +111,10 @@ int main() {
         {6, 8, 7}
     };
 
-    Graph graph(edges);
 
-    graph.printGraph();
+    Graph graph(edges, countries);
+
+    graph.printTradeNetwork();
     graph.DFS(0);
     graph.BFS(0);
 
