@@ -79,3 +79,18 @@ void BFS(int start) {
         cout << endl;
     }
 };
+int main() {
+    vector<Edge> edges = {
+        {0,1,12}, {0,2,8}, {0,3,21},
+        {2,3,6}, {2,6,2}, {5,6,6},
+        {4,5,9}, {2,4,4}, {2,5,5}
+    };
+
+    Graph graph(edges);
+
+    graph.printGraph();
+    graph.DFS(0);
+    graph.BFS(0);
+
+    return 0;
+}
