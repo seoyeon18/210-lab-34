@@ -14,9 +14,12 @@ typedef pair<int, int> Pair;
 class Graph {
 public:
     vector<vector<Pair>> adjList;
+    vector<string> countryNames;
 
-    Graph(vector<Edge> const &edges) {
+    Graph(vector<Edge> const &edges, vector<string> const &names) {
         adjList.resize(SIZE);
+        countryNames = names;
+
 
         for (auto &edge : edges) {
             int src = edge.src;
@@ -52,8 +55,23 @@ public:
         cout << endl ;
     }
     void DFSHelper(int vertex, vector<bool> &visited) {
-        
+       visited[vertex] = true;
+
+        cout << "Visiting " << countryNames[vertex] << endl;
+
+        for (Pair neighbor : adjList[vertex]) {
+            int nextVertex = neighbor.first;
+            int tradeCost = neighbor.second;
+
+            if (!visited[nextVertex]) {
+                cout << "  -> Trade can expand to " << countryNames[nextVertex]
+                     << " (Trade Cost: " << tradeCost << ")" << endl;
+
+                DFSHelper(nextVertex, visited);
+            }
+        } 
     }
+
 void BFS(int start) {
         vector<bool> visited(SIZE, false);
         queue<int> q;
