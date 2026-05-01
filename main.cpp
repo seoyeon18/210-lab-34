@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <algorithm>
 using namespace std;
 
 const int SIZE = 9;
@@ -149,6 +150,55 @@ void shortestPath(int start) {
 
     cout << endl;
 }
+int findParent(vector<int> &parent, int vertex) {
+    if (parent[vertex] == vertex) {
+        return vertex;
+    }
+
+    return findParent(parent, parent[vertex]);
+}
+
+void minimumSpanningTree() {
+    vector<Edge> allEdges;
+
+    for (int i = 0; i < SIZE; i++) {
+        for (Pair neighbor : adjList[i]) {
+            int dest = neighbor.first;
+            int weight = neighbor.second;
+
+            if (i < dest) {
+                allEdges.push_back({i, dest, weight});
+            }
+        }
+    }
+
+    sort(allEdges.begin(), allEdges.end(), [](Edge a, Edge b) {
+        return a.weight < b.weight;
+    });
+
+    vector<int> parent(SIZE);
+
+    for (int i = 0; i < SIZE; i++) {
+        parent[i] = i;
+    }
+
+    cout << "Minimum Spanning Tree edges:" << endl;
+
+    for (Edge edge : allEdges) {
+        int srcParent = findParent(parent, edge.src);
+        int destParent = findParent(parent, edge.dest);
+
+        if (srcParent != destParent) {
+            cout << "Edge from " << countryNames[edge.src]
+                 << " to " << countryNames[edge.dest]
+                 << " with trade cost: " << edge.weight << endl;
+
+            parent[srcParent] = destParent;
+        }
+    }
+
+    cout << endl;
+}
 };
 
 
@@ -189,5 +239,6 @@ int main() {
     graph.DFS(0);
     graph.BFS(0);
     graph.shortestPath(0);
+    graph.minimumSpanningTree();
     return 0;
 }
