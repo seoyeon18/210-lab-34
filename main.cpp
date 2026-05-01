@@ -235,6 +235,48 @@ int main() {
 
     Graph graph(edges, countries);
 
+        int choice;
+
+    do {
+        cout << "Global Trade Network Menu:" << endl;
+        cout << "[1] Display global trade network" << endl;
+        cout << "[2] Analyze trade partners by layers" << endl;
+        cout << "[3] Trace trade expansion path" << endl;
+        cout << "[4] Calculate lowest trade cost paths" << endl;
+        cout << "[5] Find Minimum Spanning Tree" << endl;
+        cout << "[0] Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        cout << endl;
+
+        switch (choice) {
+            case 1:
+                graph.printTradeNetwork();
+                break;
+            case 2:
+                graph.BFS(0);
+                break;
+            case 3:
+                graph.DFS(0);
+                break;
+            case 4:
+                graph.shortestPath(0);
+                break;
+            case 5:
+                graph.minimumSpanningTree();
+                break;
+            case 0:
+                cout << "Exiting program" << endl;
+                break;
+            default:
+                cout << "Please try again" << endl;
+        }
+
+        cout << endl;
+
+    } while (choice != 0);
+
     graph.printTradeNetwork();
     graph.DFS(0);
     graph.BFS(0);
